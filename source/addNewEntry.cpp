@@ -51,7 +51,4 @@ class AddNewEntry {
             newCredentialFile << "PASSWORD: " << encryptedPass << endl;
             newCredentialFile.close();
         }
-        string setEncryptedPassword(string encryptedPass) {
-            return encryptedPass;
-        }
 };
