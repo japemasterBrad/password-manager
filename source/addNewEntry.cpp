@@ -41,6 +41,7 @@ class AddNewEntry {
             cout << "Writing to database..." << endl;
             
             newCredentialFile.open(filepath + filename);
+            
             if (newCredentialFile.fail()) {
                 cerr << "Error opening file" << endl;
                 exit(1);
