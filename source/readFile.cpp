@@ -19,6 +19,8 @@ class ReadFile {
         string fileline2;
         string fileline3;
         ifstream readingFile;
+        
+
         int lines = 3;
 
     public:
@@ -40,6 +42,7 @@ class ReadFile {
             }
 
             cout << "Your decryped password is " + decryptedPass << endl;
+            
         }
 
         string getLines() {
@@ -81,6 +84,10 @@ class ReadFile {
             }
             
             return finishedPass;
+        }
+
+        string getFinishedPassword() {
+            return decryptedPass;
         }
 };
 
