@@ -4,13 +4,14 @@
 #include <string>
 #include <sys/wait.h>
 #include <dirent.h>
+#include <filesystem>
 
 #include "addNewEntry.cpp"
 #include "readFile.cpp"
 
 using namespace std;
 
-int view_entry() {
+void view_entry() {
     system("clear");
     string service_name;
     
@@ -21,7 +22,6 @@ int view_entry() {
     /*
         CODE BLOCK TO GET SERVICE NAME AND CREDENTIALS STORED IN SERVICE NAME
     */
-   return 0;
 }
 
 void addNewEntry() {
@@ -51,7 +51,7 @@ void viewSingleEntry(string fileName) {
     cout << "The thing you're looking for is " << ReadFile(ReadFile(fileName)).getFinishedPassword();
 }
 
-int viewAllEntries() {
+void viewAllEntries() {
     string fileChoice;
     DIR* dir = opendir("../txt files/");
     
@@ -65,23 +65,48 @@ int viewAllEntries() {
     while (entity != NULL) {
         cout << entity -> d_name << endl;
         entity = readdir(dir);
-        ;
     }
-
+    
     cout << "\nName the file you want to access?\n>" << endl;
     cin >> fileChoice;
 
     viewSingleEntry(fileChoice);
     closedir(dir);
-    return 0;
 }
 
-void deleteEntry() {
-    // Delete entry of listed login credentials
-    cout << "This will delete an entry" << endl;
+void deleteEntrySearch() {
+    string fileToDelete;
+    // call function to list all files
+
+string fileChoice;
+    DIR* dir = opendir("../txt files/");
+    
+    if (dir == NULL) {
+        cerr << "Directory not found" << endl;
+    }
+
+    struct dirent* entity;
+    entity = readdir(dir);
+    
+    while (entity != NULL) {
+        cout << entity -> d_name << endl;
+        entity = readdir(dir);
+    }
+
+    cout << "\nWhat file do you want to delete?" << endl;
+    cin >> fileToDelete;
+
+    /*
+        CODE TO DELETE FILES (THROUGH BASH?)
+    */
+   if(remove("../txt files/twitch.txt") == 0) {
+       cout << "file deleted successfully!" << endl;
+   } else {
+       cerr << "Couldn't find file" << endl;
+   }
+
+
 }
-
-
 void mainMenu() {
     system("clear");
     int menu_choice;
@@ -113,12 +138,11 @@ void mainMenu() {
             viewAllEntries();
         }else if (menu_choice == 4) {
             menu_view = false;
-            deleteEntry();
+            deleteEntrySearch();
         } else {
             cout << "Didn't recognise that, please try again" << endl;
             continue;
         }
-        continue;
     }
 }
 
@@ -127,14 +151,9 @@ int main() {
 
     return 0;
 }
-
 /*
-    PRE SQL TABLE TO-DO LIST
-        (done) add new entry 
-        get rid of new entry (through index numbers?))
-        view all entries
-            - search for service
-            - query for service, fetch all of the columns attached to it
 
-        Get from menu choice functions, back to the menu without closing out the program
+- make delete algorithm
+- move add, read and delete into one single class
+
 */
