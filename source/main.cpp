@@ -60,7 +60,6 @@ int viewAllEntries() {
     }
 
     struct dirent* entity;
-
     entity = readdir(dir);
     
     while (entity != NULL) {
