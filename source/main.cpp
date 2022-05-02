@@ -3,6 +3,7 @@
 #include <istream>
 #include <string>
 #include <sys/wait.h>
+#include <dirent.h>
 
 #include "addNewEntry.cpp"
 #include "readFile.cpp"
@@ -40,23 +41,45 @@ void addNewEntry() {
     AddNewEntry(service, username, password);
 }
 
-void viewSingleEntry() {
-    string serviceInput;
+void viewSingleEntry(string fileName) {
+    // string serviceInput;
 
-    cout << "Type Twitch:" << endl;
-    cout << "> ";
-    cin >> serviceInput;
-    //getline(cin, serviceInput);
+    // cout << "Type Twitch:" << endl;
+    // cout << "> ";
+    // cin >> serviceInput;
     
-    ReadFile(ReadFile(serviceInput));
+    cout << "The thing you're looking for is " << ReadFile(ReadFile(fileName)).getFinishedPassword();
 }
 
-void viewAllEntries() {
-    // view all files listed for login credentials
+int viewAllEntries() {
+    string fileChoice;
+    DIR* dir = opendir("../txt files/");
+    
+    if (dir == NULL) {
+        cerr << "Directory not found" << endl;
+    }
+
+    struct dirent* entity;
+
+    entity = readdir(dir);
+    
+    while (entity != NULL) {
+        cout << entity -> d_name << endl;
+        entity = readdir(dir);
+        ;
+    }
+
+    cout << "\nName the file you want to access?\n>" << endl;
+    cin >> fileChoice;
+
+    viewSingleEntry(fileChoice);
+    closedir(dir);
+    return 0;
 }
 
 void deleteEntry() {
     // Delete entry of listed login credentials
+    cout << "This will delete an entry" << endl;
 }
 
 
@@ -67,7 +90,7 @@ void mainMenu() {
 
     while(menu_view) { // SEND ALL THIS TO MENU FUNCTION
         cout << "Welcome to Epoxy! Password Manager C++\n" << endl;
-        cout << "What do you want to do?\n1) Add new entry\n2) View entry" << endl;
+        cout << "What do you want to do?\n1) Add new entry\n2) View entry\n3) View all entries\n4) Delete entry\n" << endl;
         
         cout << "> ";
         cin >> menu_choice;
@@ -78,7 +101,14 @@ void mainMenu() {
             menu_view = false;
         } else if (menu_choice == 2) {
             menu_view = false;
-            viewSingleEntry();
+
+            string serviceInput;
+
+            cout << "Type Twitch:" << endl;
+            cout << "> ";
+            cin >> serviceInput;
+        
+            viewSingleEntry(serviceInput);
         } else if (menu_choice == 3) {
             menu_view = false;
             viewAllEntries();
@@ -89,6 +119,7 @@ void mainMenu() {
             cout << "Didn't recognise that, please try again" << endl;
             continue;
         }
+        continue;
     }
 }
 
