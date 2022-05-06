@@ -56,7 +56,7 @@ void viewAllEntries() {
     DIR* dir = opendir("../txt files/");
     
     if (dir == NULL) {
-        cerr << "Directory not found" << endl;
+        std::cerr << "Directory not found" << endl;
     }
 
     struct dirent* entity;
@@ -80,7 +80,7 @@ void deleteEntrySearch() {
     // call function to list all files
     
     if (dir == NULL) {
-        cerr << "Directory not found" << endl;
+        std::cerr << "Directory not found" << endl;
     }
 
     struct dirent* entity;
