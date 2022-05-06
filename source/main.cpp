@@ -71,11 +71,15 @@ void viewAllEntries() {
     closedir(dir);
 }
 
-void deleteEntrySearch() {
+int deleteEntrySearch() {
     string fileToDelete;
-    const char * filepath = "../txt files/";
+    string filepath = "../txt files/";
+    string fileExtension = ".txt";
+    string filename;
     string fileChoice;
     DIR* dir = opendir("../txt files/");
+    string deleteFile;
+
     
     // call function to list all files
     
@@ -83,7 +87,7 @@ void deleteEntrySearch() {
         std::cerr << "Directory not found" << endl;
     }
 
-    struct dirent* entity;
+    struct dirent * entity;
     entity = readdir(dir);
     
     while (entity != NULL) {
@@ -93,6 +97,21 @@ void deleteEntrySearch() {
 
     std::cout << "\nWhat file do you want to delete?" << endl;
     std::cin >> fileToDelete;
+    
+    filename.append(fileToDelete);
+    filename.append(fileExtension);
+
+    std::cout << "Are you sure you want to delete " << filename << "?" << endl;
+    std::cin >> deleteFile;
+
+    if(deleteFile == "y" || deleteFile == "Y") {
+        system("rm ../txt files/" + filename);
+        std::cout << "is done" << endl;
+    } else if (deleteFile == "n" || deleteFile == "N") {
+        cout << "cancelling file deletion" << endl;
+    }
+
+    return 0;
 }
 
 
